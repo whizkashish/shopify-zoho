@@ -14,11 +14,6 @@ COPY requirements.txt /app/
 # Copy the entire project to the /app directory
 COPY sample_django_app/ /app/
 
-# Ensure the SQLite database file exists and has the correct permissions
-RUN mkdir -p /app && \
-    touch /app/db.sqlite3 && \
-    chmod 644 /app/db.sqlite3
-
 # Expose the port the app runs on
 EXPOSE 8000
 
@@ -40,11 +35,16 @@ RUN python -m venv /py && \
     mkdir -p /vol/web/media && \
     mkdir -p /vol/web/static && \
     chown -R django-user:django-user /vol && \
-    chmod -R 755 /vol && \
-    chown django-user:django-user /app/db.sqlite3
+    chmod -R 755 /vol
+
+# Ensure SQLite database file exists and set correct permissions
+RUN touch /app/db.sqlite3 && \
+    chown django-user:django-user /app/db.sqlite3 && \
+    chmod 664 /app/db.sqlite3
 
 ENV PATH="/py/bin:$PATH"
 
 USER django-user
+
 # Command to run the application
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
