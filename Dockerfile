@@ -12,7 +12,7 @@ WORKDIR /app
 COPY requirements.txt /app/
 
 # Copy the entire project to the /app directory
-COPY sample_django_App/ /app/
+COPY sample_django_app/ /app/
 
 # Expose the port the app runs on
 EXPOSE 8000
