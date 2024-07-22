@@ -37,6 +37,10 @@ RUN python -m venv /py && \
     chown -R django-user:django-user /vol && \
     chmod -R 755 /vol
 
+# Ensure the /app directory and its contents have the correct permissions
+RUN chown -R django-user:django-user /app && \
+    chmod -R 755 /app
+
 # Ensure SQLite database file exists and set correct permissions
 RUN touch /app/db.sqlite3 && \
     chown django-user:django-user /app/db.sqlite3 && \
